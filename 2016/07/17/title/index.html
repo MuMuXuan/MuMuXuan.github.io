@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="null">
+    <meta name="keyword"  content="undefined">
+    <link rel="shortcut icon" href="/img/coffee.png">
+
+    <title>
+        
+          title｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2016/07/17/title/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<style>
+    .intro-header{
+        background-image:url(
+        'undefined'
+        )
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <span class="brand-logo">
+                    Hexo
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!--only post-->
+<img class="wechat-title-img" src="undefined">
+
+<!-- Post Header -->
+<!-- only post bg-->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('undefined')
+    }
+</style>
+
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>title</h1>
+                    
+                    <span class="meta">
+                         作者 John Doe
+                         <span>
+                          日期 2016-07-17
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            title
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+                <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+
+                <blockquote>
+<h2 id="android源码分析"><a href="#android源码分析" class="headerlink" title="android源码分析"></a>android源码分析</h2><h2 id="android-系统"><a href="#android-系统" class="headerlink" title="android 系统"></a>android 系统</h2><pre><code>基于linux2.6.6内核
+</code></pre><h2 id="android系统启动"><a href="#android系统启动" class="headerlink" title="android系统启动"></a>android系统启动</h2><pre><code>引动程序（文件），引导到android系统文件，加载各种数据结构和驱动程序，然后加载android层第一个进程（init init.c /system/core/init/Init.c）,main方法主要代码如下：
+....
+//声明变量
+    /* Get the basic filesystem setup we need put
+     * together in the initramdisk on / and then we&apos;ll
+     * let the rc file figure out the rest.
+     */
+//创建目录，挂载目录
+mkdir(&quot;/dev/socket&quot;, 0755);
+mount(&quot;devpts&quot;, &quot;/dev/pts&quot;, &quot;devpts&quot;, 0, NULL);
+......
+//初始化日志
+log_init();
+....
+init_parse_config_file(&quot;/init.rc&quot;);
+....
+return 0;
+</code></pre><h2 id="读取配置文件-init-rc-（-system-core-rootdir）"><a href="#读取配置文件-init-rc-（-system-core-rootdir）" class="headerlink" title="读取配置文件 init.rc （/system/core/rootdir）"></a>读取配置文件 init.rc （/system/core/rootdir）</h2><pre><code> .....
+//孵化器进程，是其他进程的母进程
+service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-system-server
+socket zygote stream 666
+onrestart write /sys/android_power/request_state wake
+onrestart write /sys/power/state on
+onrestart restart media
+onrestart restart netd
+.....
+</code></pre><h2 id="孵化器进程入口App-main-cpp文件，main方法主要代码如下："><a href="#孵化器进程入口App-main-cpp文件，main方法主要代码如下：" class="headerlink" title="孵化器进程入口App_main.cpp文件，main方法主要代码如下："></a>孵化器进程入口App_main.cpp文件，main方法主要代码如下：</h2><pre><code> // These are global variables in ProcessState.cpp
+// 声明变量
+...
+//获取java运行时环境
+AppRuntime runtime;
+。。。
+</code></pre></blockquote>
+<pre><code>    runtime.start(&quot;com.android.internal.os.ZygoteInit&quot;,
+        startSystemServer);
+。。。。
+</code></pre><blockquote>
+<h2 id="现在由cpp代码进入到java层-com-android-internal-os-ZygoteInit-类的main方法代码如下："><a href="#现在由cpp代码进入到java层-com-android-internal-os-ZygoteInit-类的main方法代码如下：" class="headerlink" title="现在由cpp代码进入到java层 com.android.internal.os.ZygoteInit 类的main方法代码如下："></a>现在由cpp代码进入到java层 com.android.internal.os.ZygoteInit 类的main方法代码如下：</h2><pre><code>try {
+    // 
+       ...
+       //预加载类和资源 加载大约1800多个类 preloaded-clasess（文件名）
+       preloadClasses();
+</code></pre></blockquote>
+<pre><code>        gc();
+
+       ...
+            //启动系统服务
+        startSystemServer();
+        ...
+
+}
+</code></pre><blockquote>
+<h2 id="startSystemServer-代码如下："><a href="#startSystemServer-代码如下：" class="headerlink" title="startSystemServer()代码如下："></a>startSystemServer()代码如下：</h2><pre><code>private static boolean startSystemServer()
+        throws MethodAndArgsCaller, RuntimeException {
+    /* Hardcoded command line to start the system server */
+    String args[] = {
+        &quot;--setuid=1000&quot;,
+        &quot;--setgid=1000&quot;,
+        &quot;--setgroups=1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1018,3001,3002,3003&quot;,
+        &quot;--capabilities=130104352,130104352&quot;,
+        &quot;--runtime-init&quot;,
+        &quot;--nice-name=system_server&quot;,//进程的名字system_server
+        &quot;com.android.server.SystemServer&quot;,//启动的类名
+    };
+    ZygoteConnection.Arguments parsedArgs = null;
+    int pid;
+    try {
+        parsedArgs = new ZygoteConnection.Arguments(args);
+        /*
+         * Enable debugging of the system process if *either* the command line flags
+         * indicate it should be debuggable or the ro.debuggable system property
+         * is set to &quot;1&quot;
+         */
+        int debugFlags = parsedArgs.debugFlags;
+        if (&quot;1&quot;.equals(SystemProperties.get(&quot;ro.debuggable&quot;)))
+            debugFlags |= Zygote.DEBUG_ENABLE_DEBUGGER;
+        //分叉启动 com.android.server.SystemServer类
+        pid = Zygote.forkSystemServer(
+                parsedArgs.uid, parsedArgs.gid,
+                parsedArgs.gids, debugFlags, null,
+                parsedArgs.permittedCapabilities,
+                parsedArgs.effectiveCapabilities);
+    return true;
+}
+</code></pre><h2 id="com-android-server-SystemServer类的代码，main方法主要代码如下："><a href="#com-android-server-SystemServer类的代码，main方法主要代码如下：" class="headerlink" title="com.android.server.SystemServer类的代码，main方法主要代码如下："></a>com.android.server.SystemServer类的代码，main方法主要代码如下：</h2><pre><code>public static void main(String[] args) {
+    ....
+    //加载android_servers库
+    System.loadLibrary(&quot;android_servers&quot;);
+    //jni的实现
+    init1(args);
+}
+</code></pre><h2 id="init1方法在SystemServer-cpp文件中定义："><a href="#init1方法在SystemServer-cpp文件中定义：" class="headerlink" title="init1方法在SystemServer.cpp文件中定义："></a>init1方法在SystemServer.cpp文件中定义：</h2><pre><code>static void android_server_SystemServer_init1(JNIEnv* env, jobject clazz)
+{
+    system_init();
+}
+</code></pre></blockquote>
+<pre><code>/*
+ * JNI registration.
+ */
+static JNINativeMethod gMethods[] = {
+    /* name, signature, funcPtr */
+    { &quot;init1&quot;, &quot;([Ljava/lang/String;)V&quot;, (void*) android_server_SystemServer_init1 },
+};
+</code></pre><blockquote>
+<h2 id="system-init-方法是在System-init-cpp类中声明"><a href="#system-init-方法是在System-init-cpp类中声明" class="headerlink" title="system_init()方法是在System_init.cpp类中声明"></a>system_init()方法是在System_init.cpp类中声明</h2></blockquote>
+<pre><code>sp&lt;ProcessState&gt; proc(ProcessState::self());
+
+sp&lt;IServiceManager&gt; sm = defaultServiceManager();
+LOGI(&quot;ServiceManager: %p\n&quot;, sm.get());
+
+sp&lt;GrimReaper&gt; grim = new GrimReaper();
+sm-&gt;asBinder()-&gt;linkToDeath(grim, grim.get(), 0);
+
+char propBuf[PROPERTY_VALUE_MAX];
+property_get(&quot;system_init.startsurfaceflinger&quot;, propBuf, &quot;1&quot;);
+if (strcmp(propBuf, &quot;1&quot;) == 0) {
+    // Start the SurfaceFlinger
+    SurfaceFlinger::instantiate();
+}
+
+// Start the sensor service
+SensorService::instantiate();
+
+// 主要做了硬件的操作
+if (!proc-&gt;supportsProcesses()) {
+
+    // Start the AudioFlinger
+    AudioFlinger::instantiate();
+
+    // Start the media playback service
+    MediaPlayerService::instantiate();
+
+    // Start the camera service
+    CameraService::instantiate();
+
+    // Start the audio policy service
+    AudioPolicyService::instantiate();
+}
+
+// And now start the Android runtime.  We have to do this bit
+// of nastiness because the Android runtime initialization requires
+// some of the core system services to already be started.
+// All other servers should just start the Android runtime at
+// the beginning of their processes&apos;s main(), before calling
+// the init function.
+LOGI(&quot;System server: starting Android runtime.\n&quot;);
+
+AndroidRuntime* runtime = AndroidRuntime::getRuntime();
+
+LOGI(&quot;System server: starting Android services.\n&quot;);
+//在cpp中又调用了java层的代码，主要是进行硬件的初始化操作
+runtime-&gt;callStatic(&quot;com/android/server/SystemServer&quot;, &quot;init2&quot;);
+
+
+return NO_ERROR;
+</code></pre><blockquote>
+<h2 id="runtime-gt-callStatic-“com-android-server-SystemServer”-“init2”"><a href="#runtime-gt-callStatic-“com-android-server-SystemServer”-“init2”" class="headerlink" title="runtime-&gt;callStatic(“com/android/server/SystemServer”, “init2”);"></a>runtime-&gt;callStatic(“com/android/server/SystemServer”, “init2”);</h2><pre><code>调用类com/android/server/SystemServer中的静态方法 init2（）
+</code></pre><h2 id="init2-方法的定义如下："><a href="#init2-方法的定义如下：" class="headerlink" title="init2()方法的定义如下："></a>init2()方法的定义如下：</h2><pre><code> public static final void init2() {
+    Slog.i(TAG, &quot;Entered the Android system server!&quot;);
+    Thread thr = new ServerThread();
+    thr.setName(&quot;android.server.ServerThread&quot;);
+    //主要是启动了一个线程
+    thr.start();
+}
+</code></pre><h2 id="android-server-ServerThread类的run（）方法如下："><a href="#android-server-ServerThread类的run（）方法如下：" class="headerlink" title="android.server.ServerThread类的run（）方法如下："></a>android.server.ServerThread类的run（）方法如下：</h2></blockquote>
+<pre><code>@Override
+public void run() {
+    EventLog.writeEvent(EventLogTags.BOOT_PROGRESS_SYSTEM_RUN,
+        SystemClock.uptimeMillis());
+    //轮询器初始化
+    Looper.prepare();
+
+    ...
+    //启动各种服务
+
+    ((ActivityManagerService)ActivityManagerNative.getDefault())
+            .systemReady(new Runnable() {
+        public void run() {
+            Slog.i(TAG, &quot;Making services ready&quot;);
+
+            if (statusBarF != null) statusBarF.systemReady2();
+            if (batteryF != null) batteryF.systemReady();
+            if (connectivityF != null) connectivityF.systemReady();
+            if (dockF != null) dockF.systemReady();
+            if (usbF != null) usbF.systemReady();
+            if (uiModeF != null) uiModeF.systemReady();
+            if (recognitionF != null) recognitionF.systemReady();
+            Watchdog.getInstance().start();
+
+            // It is now okay to let the various system services start their
+            // third party code...
+
+            if (appWidgetF != null) appWidgetF.systemReady(safeMode);
+            if (wallpaperF != null) wallpaperF.systemReady();
+            if (immF != null) immF.systemReady();
+            if (locationF != null) locationF.systemReady();
+            if (throttleF != null) throttleF.systemReady();
+        }
+    });
+
+    ...
+    //轮询器循环取消息
+    Looper.loop();
+    Slog.d(TAG, &quot;System ServerThread is exiting!&quot;);
+}
+</code></pre><blockquote>
+<h2 id="systemReady-方法主要代码如下："><a href="#systemReady-方法主要代码如下：" class="headerlink" title="systemReady()方法主要代码如下："></a>systemReady()方法主要代码如下：</h2></blockquote>
+<pre><code>public void systemReady(final Runnable goingCallback) {
+        ...
+
+        //发送屏幕锁定广播
+        broadcastIntentLocked(null, null, intent, null, 
+
+        //从栈顶部去找Activity
+        mMainStack.resumeTopActivityLocked(null);
+    }
+}
+</code></pre><blockquote>
+<h2 id="resumeTopActivityLocked-null"><a href="#resumeTopActivityLocked-null" class="headerlink" title="resumeTopActivityLocked(null);"></a>resumeTopActivityLocked(null);</h2><pre><code>//  从栈顶部取Activity
+   ActivityRecord next = topRunningActivityLocked(null);
+</code></pre></blockquote>
+<pre><code>// Remember how we&apos;ll process this pause/resume situation, and ensure
+// that the state is reset however we wind up proceeding.
+final boolean userLeaving = mUserLeaving;
+mUserLeaving = false;
+//第一次初始化 ，栈里为空
+if (next == null) {
+    // There are no more activities!  Let&apos;s just start up the
+    // Launcher...
+    if (mMainStack) {
+        //启动home界面 android系统启动完成
+        return mService.startHomeActivityLocked();
+    }
+}
+</code></pre>
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/07/17/hello-world/" data-toggle="tooltip" data-placement="top" title="Hello World">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col" >
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#android源码分析"><span class="toc-text">android源码分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#android-系统"><span class="toc-text">android 系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#android系统启动"><span class="toc-text">android系统启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读取配置文件-init-rc-（-system-core-rootdir）"><span class="toc-text">读取配置文件 init.rc （/system/core/rootdir）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#孵化器进程入口App-main-cpp文件，main方法主要代码如下："><span class="toc-text">孵化器进程入口App_main.cpp文件，main方法主要代码如下：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#现在由cpp代码进入到java层-com-android-internal-os-ZygoteInit-类的main方法代码如下："><span class="toc-text">现在由cpp代码进入到java层 com.android.internal.os.ZygoteInit 类的main方法代码如下：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#startSystemServer-代码如下："><span class="toc-text">startSystemServer()代码如下：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#com-android-server-SystemServer类的代码，main方法主要代码如下："><span class="toc-text">com.android.server.SystemServer类的代码，main方法主要代码如下：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#init1方法在SystemServer-cpp文件中定义："><span class="toc-text">init1方法在SystemServer.cpp文件中定义：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#system-init-方法是在System-init-cpp类中声明"><span class="toc-text">system_init()方法是在System_init.cpp类中声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#runtime-gt-callStatic-“com-android-server-SystemServer”-“init2”"><span class="toc-text">runtime->callStatic(“com/android/server/SystemServer”, “init2”);</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#init2-方法的定义如下："><span class="toc-text">init2()方法的定义如下：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#android-server-ServerThread类的run（）方法如下："><span class="toc-text">android.server.ServerThread类的run（）方法如下：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#systemReady-方法主要代码如下："><span class="toc-text">systemReady()方法主要代码如下：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#resumeTopActivityLocked-null"><span class="toc-text">resumeTopActivityLocked(null);</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Hexo 2016 
+                    <br>
+                    <!--Theme by <a href="https://github.com/Kaijun/">Kaijun</a>-->
+                    <!--<span style="display: inline-block; margin: 0 5px;">-->
+                        <!--<i class="fa fa-heart"></i>-->
+                    <!--</span> -->
+                    Theme by <a href="http://ehazon.github.io/">Haojen Ma</a>
+                    <!--<iframe-->
+                        <!--style="margin-left: 2px; margin-bottom:-5px;"-->
+                        <!--frameborder="0" scrolling="0" width="91px" height="20px"-->
+                        <!--src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >-->
+                    <!--</iframe>-->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+    <!--wechat title img-->
+    <img class="wechat-title-img" src="undefined">
+</body>
+
+</html>
