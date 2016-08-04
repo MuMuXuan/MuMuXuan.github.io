@@ -295,101 +295,18 @@
 
       
         
-          
-            <h2 id="1-需求"><a href="#1-需求" class="headerlink" title="1 需求"></a>1 需求</h2><p>在市面上有些比较实用的app应用，比如说：日历app、文件管理app，视频播放器app。这些app中大部分都内置了广告。<br>其实有广告也是情有可原的，因为这些app的开发都是需要成本的，开发者制作后将其供用户们免费使用，为了能够套现，所以很多开发者选择往应用中植入各种第三方广告平台的SDK。这样，用户们打开这些应用时，就会遭受各式各样的广告，比如说像这样：</p>
+          <h2 id="1-需求"><a href="#1-需求" class="headerlink" title="1 需求"></a>1 需求</h2><p>在市面上有些比较实用的app应用，比如说：日历app、文件管理app，视频播放器app。这些app中大部分都内置了广告。<br>其实有广告也是情有可原的，因为这些app的开发都是需要成本的，开发者制作后将其供用户们免费使用，为了能够套现，所以很多开发者选择往应用中植入各种第三方广告平台的SDK。这样，用户们打开这些应用时，就会遭受各式各样的广告，比如说像这样：</p>
 <p><img src="http://oaarc3d2f.bkt.clouddn.com/ad01.jpg" alt="广告">  </p>
 <p>像这样：  </p>
 <p><img src="http://oaarc3d2f.bkt.clouddn.com/ad02.jpg" alt="广告"></p>
 <p>很多用户会抱怨一不小心就会点到那个广告，如果是在移动网络下，还会浪费流量，因为点到了广告后，手机可能就会打开一个网页让你去玩“老婆不在家玩的游戏”。  </p>
 <p><img src="http://oaarc3d2f.bkt.clouddn.com/badSmile.jpg" alt=""></p>
 <p>这篇博客的目的就是将这些广告从app中去掉，过程中需要涉及到apk的反编译。</p>
-<h2 id="2-工具准备"><a href="#2-工具准备" class="headerlink" title="2 工具准备"></a>2 工具准备</h2><p>为了能够去掉这些广告，我使用到了这些工具：</p>
-<ul>
-<li><a href="https://www.baidu.com/s?ie=UTF-8&amp;wd=apktool%20download" target="_blank" rel="external">apktool</a></li>
-<li><a href="http://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=429318&amp;page=1&amp;authorid=320888" target="_blank" rel="external">apktoolBox</a></li>
-</ul>
-<p>其中，apktool用来将apk文件进行反编译，便于接下来去修改代码。而apktoolBox则是一款集成了各种Android反编译工具的合集，它包含了apktool的功能，除此之外，还能用来查看apk中代码、给apk签名等等。</p>
-<p>最后我们再准备一款有广告的应用，这里我用的是一款文件管理应用：<br><a href="http://shouji.baidu.com/software/9743182.html" target="_blank" rel="external">RE文件浏览器</a>  </p>
-<p>注意：apk下载后，<strong>将其改名（名字不要带中文），然后将其放到一个不带中文的路径下</strong>，这样做是为了避免后期的工作失败。</p>
-<h2 id="3-开始反编译"><a href="#3-开始反编译" class="headerlink" title="3 开始反编译"></a>3 开始反编译</h2><p>打开apktoolBox，进行反编译。</p>
-<p><img src="http://oaarc3d2f.bkt.clouddn.com/ApkDecompilation.jpg" alt="反编译"></p>
-<p>生成了一堆文件后，来到反编译出来的目录，打开AndroidManifest.xml，找到跟广告相关的代码。如下图：</p>
-<p><img src="http://oaarc3d2f.bkt.clouddn.com/AndroidManifestAd.jpg" alt="广告SDK相关配置"></p>
-<p>广告单词缩写为ad，将百度相关的广告的value改成0（市面上三方广告SDK都需要配置一个正确的value才会推送广告），然后再用apktoolbox进行回编译（重新打包生成apk）。运行新打包的apk，可以发现广告里面的内容已经不见了。但是一个空白的广告条还是在底部占着位置。</p>
-<h2 id="4-去掉广告条占位"><a href="#4-去掉广告条占位" class="headerlink" title="4 去掉广告条占位"></a>4 去掉广告条占位</h2><p>先看看这个广告条所在的页面的布局情况，这里采用hierarchyViewer查看手机上当前页面的布局（hierarchyViewer程序位于Android SDK目录中tools文件夹里）。</p>
-<p><img src="http://oaarc3d2f.bkt.clouddn.com/hieracchyViewer.jpg" alt="准备查看手机当前页面布局"></p>
-<p>通过它可以查看到对应的布局，定位到页面底部广告，发现控件层次如下：</p>
-<p><img src="http://oaarc3d2f.bkt.clouddn.com/adView.jpg" alt="页面底部布局广告"></p>
-<p>在底部的空白广告条是一个类型叫AdView的控件，我们如果需要去掉它，得知道关于AdView控件是在layout资源文件中加上去的，还是在java代码中加上去的。<br>这里通过notepad++工具在res资源文件夹中搜索了一番，并没有找到，说明AdView控件是在java代码里添加的。</p>
-<p><img src="http://oaarc3d2f.bkt.clouddn.com/searchAdView.jpg" alt="在res文件夹中查找AdView"></p>
-<p>在java代码中，apk作者在页面中调用一些方法将控件添加到了页面上并做了初始化等一系列操作。<br>要修改该控件的添加效果，有两种方案： </p>
-<ul>
-<li>在添加控件、初始化控件的那一系列操作上做手脚。</li>
-<li>直接从源头上入手，找到AdView这个自定义控件的代码，并从中做修改。</li>
-</ul>
-<p>这里我采用的是第二种方案，通过apktoolbox里集成的jadx工具，通过它打开apk文件可以查看里面的java代码。如下：</p>
-<p><img src="http://oaarc3d2f.bkt.clouddn.com/jadxViewCode.jpg" alt="通过jadx查看apk代码"></p>
-<p>虽然代码有被混淆过，但是通过观察，还是可以看到一些蛛丝马迹的，其中有两个地方比较有意思，一个是构造函数中的addView()，这个是往里面添加一个子控件。</p>
-<pre><code>public AdView(Context context, AttributeSet attributeSet, boolean z, AdSize adSize, String str) {
-    super(context, attributeSet);
-    this.b = new AtomicBoolean(false);
-    this.a = new a(this);
-    View adVar = new ad(context);
-    this.c = new a(context, adVar, str, z);
-    this.c.addEventListener(IXAdEvent.AD_LOADED, this.a);
-    this.c.addEventListener(IXAdEvent.AD_ERROR, this.a);
-    this.c.addEventListener(IXAdEvent.AD_STARTED, this.a);
-    this.c.addEventListener(&quot;AdUserClick&quot;, this.a);
-    adVar.a(new b(this));
-    addView(adVar, new LayoutParams(-1, -1));
-}
-</code></pre><p>还有一个地方是这个AdView控件复写了setLayoutParams方法。该方法是这样写的：</p>
-<pre><code>public void setLayoutParams(LayoutParams layoutParams) {
-    l.a().f().d(&quot;AdView.setLayoutParams=&quot;, Integer.valueOf(layoutParams.width), Integer.valueOf(layoutParams.height), Integer.valueOf(getWidth()), Integer.valueOf(getHeight()));
-    int i = layoutParams.width;
-    int i2 = layoutParams.height;
-    DisplayMetrics displayMetrics = new DisplayMetrics();
-    ((WindowManager) getContext().getSystemService(&quot;window&quot;)).getDefaultDisplay().getMetrics(displayMetrics);
-    int i3 = displayMetrics.widthPixels;
-    int i4 = displayMetrics.heightPixels;
-    float f = displayMetrics.density;
-    l.a().f().d(&quot;AdView.setLayoutParams&quot;, Integer.valueOf(i3), Integer.valueOf(i4), Float.valueOf(f));
-    if (i &lt;= 0) {
-        i = Math.min(i3, i4);
-    } else if (i &gt; 0 &amp;&amp; ((float) i) &lt; 200.0f * f) {
-        i = (int) (200.0f * f);
-    }
-    int min = i2 &lt;= 0 ? (int) (((float) Math.min(i3, i4)) * 0.15f) : (i2 &lt;= 0 || ((float) i2) &gt;= 30.0f * f) ? i2 : (int) (30.0f * f);
-    layoutParams.width = i;
-    layoutParams.height = min;
-    l.a().f().d(&quot;AdView.setLayoutParams adapter&quot;, Integer.valueOf(layoutParams.width), Integer.valueOf(layoutParams.height));
-    super.setLayoutParams(layoutParams);
-}
-</code></pre><p>大概读一遍，可以发现在这个方法里，去根据一些手机的分辨率情况去设置当前AdView的width和height，我们就修改这里的代码，将width或height设置为0，再来重打包观察效果如何。<br>要修改代码需要去反编译出来的smail目录中，找到该AdView对应包下的smail文件进行修改。<br>smail文件格式不友好，但是跟java代码相比，还是有迹可循的。这里通过一些特殊字眼（一些字符串常量都会被予以保留），比如我搜索“setLayoutParams”，就可以定位到setLayoutParams方法的定义处。<br>定位到这个setLayoutParams方法，里面有很多const申明，比如该方法里第一句日志中的“AdView.setLayoutParams=”字符串，就会被这样申明：</p>
-<pre><code>const-string v2, &quot;AdView.setLayoutParams=&quot;
-</code></pre><p>这是字符串，如果是数字int，那么就是：</p>
-<pre><code>const/4 v11, 0x3
-const/4 v10, 0x2
-const/4 v9, 0x1
-const/4 v8, 0x0
-</code></pre><p>v11、v10、v9这些代表常量名，后面的0x3、0x2这些代表常量值。<br>前提交代完毕后，接下来开始修改，我改的是setLayoutParams方法中这一句代码：</p>
-<pre><code>layoutParams.width = i;
-layoutParams.height = min;
-</code></pre><p>将其修改不再为i，改为0。这几句代码在smail中就是这一句：</p>
-<pre><code>.line 156
-iget v2, p1, Landroid/view/ViewGroup$LayoutParams;-&gt;width:I
-.line 157
-iget v1, p1, Landroid/view/ViewGroup$LayoutParams;-&gt;height:I
-</code></pre><p>这几句，其实就是v2赋值给layoutParams.width，v1赋值给layoutParams.height。我这里将v8赋值给width和height，因为v8的值为0x0</p>
-<pre><code>iput v8, p1, Landroid/view/ViewGroup$LayoutParams;-&gt;width:I
-.line 179
-iput v8, p1, Landroid/view/ViewGroup$LayoutParams;-&gt;height:I
-</code></pre><p>这里不建议大家自己去创建一个const，可能会导致编译不通过，或者会运行重打包apk时报错。<br>另外，如果smail代码修改的有误，使用apktoolbox是没有提示的，如果一直无法重打包apk，那么建议使用apktool工具来打包，它会及时的告诉你smail文件的报错位置。  </p>
-<p>最后使用工具进行重打包回编译apk，并签名。安装以后，可以发现底部的广告条已经不见啦。  </p>
-<p><img src="http://oaarc3d2f.bkt.clouddn.com/adGone.jpg" alt="页面底部广告条被去掉"></p>
-<p>如果对新生成的apk用jadx打开观察java代码的话，可以发现width和height已经被设置为0.</p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/08/04/deleteAd/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -487,167 +404,14 @@ iput v8, p1, Landroid/view/ViewGroup$LayoutParams;-&gt;height:I
 
       
         
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这是新开的博客第一篇文章。这一篇针对的是自定义控件。在github上有一个自定义控件的效果如下：</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这是新开的博客第一篇文章。这一篇针对的是自定义控件。在github上有一个自定义控件的效果如下：</p>
 <p><img src="http://oaarc3d2f.bkt.clouddn.com/result.gif" alt="效果"></p>
-<p>这个水平方向上无限滚动的控件，可以用来制作自定义进度条，或者一些tab效果。<br>具体使用方法请移步<a href="https://github.com/Q42/AndroidScrollingImageView" target="_blank" rel="external">github</a>。<br>它实现该效果只有50行代码不到，所以写这篇博客来记录该控件的实现过程。</p>
-<h2 id="1-分析需求"><a href="#1-分析需求" class="headerlink" title="1. 分析需求"></a>1. 分析需求</h2><ul>
-<li>设置进去的图片可以水平滚动；</li>
-<li>滚动展示的图片可以自行设置，滚动的速度也可以自行设置，；</li>
-<li>速度为正，向后滚动（从右向左滚动）；为负时，向前滚动（从左向右滚动）；</li>
-</ul>
-<h2 id="2-xml资源相关"><a href="#2-xml资源相关" class="headerlink" title="2. xml资源相关"></a>2. xml资源相关</h2><p> 能够自行设置，那么需要去设置自定义属性来控制速度及滚动展示的图片。<br>在res/values下创建attrs.xml，并采用以下方式定义自定义属性：</p>
-<pre><code> &lt;resource&gt;
-&lt;declare-styleable name=&quot;ScrollingView&quot;&gt;
-    &lt;attr name=&quot;speed&quot; format=&quot;dimension&quot; /&gt;
-    &lt;attr name=&quot;src&quot; format=&quot;reference&quot; /&gt;
-&lt;/declare-styleable&gt;
-&lt;/resource&gt;
-</code></pre><p>speed为速度，src为滚动展示的图片资源。<br>在layout布局文件中使用自定义属性，首先在根布局view中设置命名空间：  </p>
-<pre><code>xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
-</code></pre><p>然后在自定义控件中设置自定义属性</p>
-<p><img src="http://oaarc3d2f.bkt.clouddn.com/02.jpg" alt="layout布局中使用自定义属性"></p>
-<h2 id="3-java代码"><a href="#3-java代码" class="headerlink" title="3. java代码"></a>3. java代码</h2><h3 id="3-1-初始化"><a href="#3-1-初始化" class="headerlink" title="3.1 初始化"></a>3.1 初始化</h3><p>创建一个View类，并在构造方法中获得自定义属性speed和图片。凡是在xml中定义的控件，会调用以下形式的构造方法：</p>
-<pre><code>public ScrollingView(Context context, AttributeSet attrs) {
-    super(context, attrs);
-     try{
-        speed = typedArray.getDimensionPixelSize(R.styleable.ScrollingView_speed, 1);
-        bitmap = BitmapFactory.decodeResource(getResources(), typedArray.getResourceId(R.styleable.ScrollingView_src, 0));
-    }finally {
-        typedArray.recycle();
-    }
-}
-</code></pre><h3 id="3-2-onMeasure测量"><a href="#3-2-onMeasure测量" class="headerlink" title="3.2 onMeasure测量"></a>3.2 onMeasure测量</h3><p>需要设置控件的宽高，不然会出现高度显示不正常。这里采用的方式为：</p>
-<pre><code>protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), bitmap.getHeight());
-}
-</code></pre><h3 id="3-3-onDraw绘制"><a href="#3-3-onDraw绘制" class="headerlink" title="3.3 onDraw绘制"></a>3.3 onDraw绘制</h3><p>关键点来了，该控件最大的难点就在绘制，我将绘制逻辑分为三个要点：</p>
-<h4 id="3-3-1-要点一"><a href="#3-3-1-要点一" class="headerlink" title="3.3.1 要点一"></a>3.3.1 要点一</h4><p> 如果当前的控件宽度大于要滚动的图片宽度，那么会出现空白，应该需要重复绘制多个图片来填充。<br><img src="http://oaarc3d2f.bkt.clouddn.com/04.jpg" alt="出现空白"></p>
-<ul>
-<li>解决方案：用一个变量left记录当前canvas绘制bitmap时的左方基坐标，如果left小于控件的宽度，就继续绘制，每绘制一次图片，就让left的值递增，每次递增的值为bitmap的宽度，这种方式可以实现<strong>从左往右</strong>的绘制图片出来填充满控件。</li>
-</ul>
-<p><img src="http://oaarc3d2f.bkt.clouddn.com/03.jpg" alt="填补空白"></p>
-<p>具体代码如下：</p>
-<pre><code>protected void onDraw(Canvas canvas) {
-    //获取要滚动的图片的宽度
-    float layerWidth = bitmap.getWidth();
-    //使用一个变量来作为绘制bitmap时的左边基坐标
-    float left = 0;
-    //如果left不大于控件的宽度，则循环绘制
-    while (left &lt; getMeasuredWidth()) {
-        canvas.drawBitmap(bitmap, left, 0, null);
-        left += layerWidth;
-    }
-}
-</code></pre><h4 id="3-3-2-要点二"><a href="#3-3-2-要点二" class="headerlink" title="3.3.2 要点二"></a>3.3.2 要点二</h4><p>根据speed属性，来设置图片往后退的速度。</p>
-<ul>
-<li>解决方案：通过不断修改canvas.drawBitmap()中的left，根据speed，不断的让left坐标变小，并调用重绘方法，从而使得图片不断后退。关于left变小的偏移量，使用全局变量offset进行记录。  </li>
-</ul>
-<p><img src="http://oaarc3d2f.bkt.clouddn.com/back.gif" alt="向后滚动"></p>
-<p>具体代码如下：</p>
-<pre><code>private float offset;
-@Override
-protected void onDraw(Canvas canvas) {
-    //获取要滚动的图片的宽度
-    float layerWidth = bitmap.getWidth();
-    //使用一个变量来作为绘制bitmap的左边基坐标
-    float left = offset;
-    //如果left不大于控件的宽度，则循环绘制
-    while (left &lt; getMeasuredWidth()) {
-        canvas.drawBitmap(bitmap, left, 0, null);
-        left += layerWidth;
-    }
-    //全局变量offser用来记录left的偏移量
-    offset = offset-speed;
-    postInvalidate();
-}
-</code></pre><p>这样写导致left的偏移量越来越小，代码会在手机屏幕左方看不见的地方疯狂绘制，这显然不太效率。这里多加一个判断，如果offset超过一定的界限，就重置。</p>
-<pre><code>protected void onDraw(Canvas canvas) {
-
-    //获取要滚动的图片的宽度
-    float layerWidth = bitmap.getWidth();
-    if (offset &lt; -layerWidth) {
-        offset += (floor(abs(offset) / layerWidth) * layerWidth);
-        //offset = 0;
-    }
-    ...
-}
-</code></pre><h4 id="3-3-3-要点三"><a href="#3-3-3-要点三" class="headerlink" title="3.3.3 要点三"></a>3.3.3 要点三</h4><p>如果速度设置为负数，图片应该不再后退，而是不断前进。</p>
-<ul>
-<li>解决方案：并让左方基坐标不断变大，并改变绘制的方向，改为<strong>从右往左</strong>的方向绘制图片，就可以让图片变成向前滚了。<ul>
-<li>如果需要从右向左，那么开始绘制第一个图片时，左方的基坐标不再是从0开始，而是：控件的宽度-图片bitmap的宽度。</li>
-<li>在当前的情况下，为了left变量总体趋势不断变小，同时能够不断的让左方基坐标变大，所以在循环当中，左方基坐标改为getMeasureWidth()-bitmap.getWidth()-left。</li>
-<li>left变量总体趋势不断变小，offset也应该不断变小，而当前speed为负，所以在对offset偏移量的减去speed操作时，对speed采用绝对值abs。</li>
-</ul>
-</li>
-</ul>
-<p><img src="http://oaarc3d2f.bkt.clouddn.com/forward.gif" alt="向前滚动"></p>
-<pre><code>protected void onDraw(Canvas canvas) {
-    //获取要滚动的图片的宽度
-    float layerWidth = bitmap.getWidth();
-    ...
-    //如果left不大于控件的宽度，则循环绘制
-    while (left &lt; getMeasuredWidth()) {
-        canvas.drawBitmap(bitmap, getBitmapLeft(layerWidth, left), 0, null);
-        left += layerWidth;
-    }
-    //全局变量offser用来记录left的偏移量
-    if(isStarted){
-        offset = offset-abs(speed);
-        postInvalidate();
-    }
-}
-
-/**
- * @param layerWidth bitmap图片的宽度
- * @return
- */
-private float getBitmapLeft(float layerWidth, float left) {
-    if (speed &lt; 0) {
-        return getMeasuredWidth() - layerWidth - left;
-    } else {
-        return left;
-    }
-}
-</code></pre><h4 id="3-4-功能完善"><a href="#3-4-功能完善" class="headerlink" title="3.4 功能完善"></a>3.4 功能完善</h4><p>为了能够让开发者自由控制图片滚动，项目中还加了一个boolean值用来控制。并提供对应的公有方法。<br><img src="http://oaarc3d2f.bkt.clouddn.com/stop.gif" alt="停止滚动"><br>具体代码如下：</p>
-<pre><code>private boolean isStarted = false;
-
-public ScrollingView(Context context, AttributeSet attrs) {
-    ...
-    start();
-}
-
-/**Start the animation*/
-public void start() {
-    if (!isStarted) {
-        isStarted = true;
-        postInvalidate();
-    }
-}
-
-protected void onDraw(Canvas canvas) {
-    ...
-    //全局变量offser用来记录left的偏移量
-    if(isStarted){
-        offset = offset-speed;
-        postInvalidate();
-    }
-}
-
-/**Stop the animation*/
-public void stop() {
-    if (isStarted) {
-        isStarted = false;
-        invalidate();
-    }
-}
-public boolean isStarted(){
-    return isStarted;
-}
-</code></pre><h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>有兴趣的小伙伴可以参考这个思路，通过修改drawBitmap方法中top基坐标，实现一下Image在竖直方向上的无限滚动。</p>
-
-          
+<p>这个水平方向上无限滚动的控件，可以用来制作自定义进度条，或者一些tab效果。<br>具体使用方法请移步<a href="https://github.com/Q42/AndroidScrollingImageView">github</a>。<br>它实现该效果只有50行代码不到，所以写这篇博客来记录该控件的实现过程。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/07/27/scrollingView/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -745,18 +509,12 @@ public boolean isStarted(){
 
       
         
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
+          <p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/07/17/hello-world/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
