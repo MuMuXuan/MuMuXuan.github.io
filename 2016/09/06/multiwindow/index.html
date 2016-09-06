@@ -1,0 +1,680 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言​    Android 7.0正式版在近期开始进行了推送，该版本中最大的一个特色就是支持在设备上展示多窗口供用户查看各个应用。
+如何切换到多窗口模式​    多窗口模式有两种：分屏模式和自由形状模式。
+分屏模式
+​    进入分屏模式的操作：在overview屏幕下，长按Activity标题，然后可以拖动该 Activity 至屏幕突出显示的区域。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 7.0多窗口支持">
+<meta property="og:url" content="http://mumuxuan.com/2016/09/06/multiwindow/index.html">
+<meta property="og:site_name" content="MuMu轩的博客">
+<meta property="og:description" content="前言​    Android 7.0正式版在近期开始进行了推送，该版本中最大的一个特色就是支持在设备上展示多窗口供用户查看各个应用。
+如何切换到多窗口模式​    多窗口模式有两种：分屏模式和自由形状模式。
+分屏模式
+​    进入分屏模式的操作：在overview屏幕下，长按Activity标题，然后可以拖动该 Activity 至屏幕突出显示的区域。">
+<meta property="og:image" content="http://oaarc3d2f.bkt.clouddn.com/fenping.jpg">
+<meta property="og:image" content="http://oaarc3d2f.bkt.clouddn.com/fenpin.gif">
+<meta property="og:image" content="http://oaarc3d2f.bkt.clouddn.com/free.jpg">
+<meta property="og:image" content="http://oaarc3d2f.bkt.clouddn.com/free.gif">
+<meta property="og:updated_time" content="2016-09-06T02:43:17.421Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 7.0多窗口支持">
+<meta name="twitter:description" content="前言​    Android 7.0正式版在近期开始进行了推送，该版本中最大的一个特色就是支持在设备上展示多窗口供用户查看各个应用。
+如何切换到多窗口模式​    多窗口模式有两种：分屏模式和自由形状模式。
+分屏模式
+​    进入分屏模式的操作：在overview屏幕下，长按Activity标题，然后可以拖动该 Activity 至屏幕突出显示的区域。">
+<meta name="twitter:image" content="http://oaarc3d2f.bkt.clouddn.com/fenping.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://mumuxuan.com/2016/09/06/multiwindow/"/>
+
+  <title> Android 7.0多窗口支持 | MuMu轩的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?9576c121d3657b2198e783f7e4cf2f83";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">MuMu轩的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android 7.0多窗口支持
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-06T10:33:10+08:00" content="2016-09-06">
+              2016-09-06
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/06/multiwindow/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/06/multiwindow/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​    Android 7.0正式版在近期开始进行了推送，该版本中最大的一个特色就是支持在设备上展示多窗口供用户查看各个应用。</p>
+<h2 id="如何切换到多窗口模式"><a href="#如何切换到多窗口模式" class="headerlink" title="如何切换到多窗口模式"></a>如何切换到多窗口模式</h2><p>​    多窗口模式有两种：分屏模式和自由形状模式。</p>
+<h4 id="分屏模式"><a href="#分屏模式" class="headerlink" title="分屏模式"></a>分屏模式</h4><p><img src="http://oaarc3d2f.bkt.clouddn.com/fenping.jpg" alt="分屏模式"></p>
+<p>​    进入分屏模式的操作：在overview屏幕下，长按Activity标题，然后可以拖动该 Activity 至屏幕突出显示的区域。 </p>
+<p> <img src="http://oaarc3d2f.bkt.clouddn.com/fenpin.gif" alt="进入分屏模式"></p>
+<a id="more"></a>
+<p>​    在分屏模式下，手指可以拖动分界线，放大其中一个应用，同时缩小另一个。如果这个应用在新展开的区域绘制滞后，系统将使用 <code>windowBackground</code> 属性或默认 <code>windowBackgroundFallback</code> 样式属性指定的颜色暂时填充该区域。</p>
+<h4 id="自由形状模式"><a href="#自由形状模式" class="headerlink" title="自由形状模式"></a>自由形状模式</h4><p><img src="http://oaarc3d2f.bkt.clouddn.com/free.jpg" alt="free"></p>
+<p>​    进入自由形状模式的操作：稍微麻烦点，前提是要有运行 Android N 的模拟器或者已root的设备。目前为止（2016年9月初），在使用自由形状模式时可能Crash，所以google把该模式藏的比较深。开启和进入该模式的步骤如下：</p>
+<ol>
+<li>打开模拟器或者用usb线连接已root了的设备</li>
+<li>在cmd命令行中输入adb shell</li>
+<li>然后输入su获得root操作权限</li>
+<li>输入<code>settings put global enable_freeform_support 1</code></li>
+<li>重启模拟器或设备。</li>
+<li><p>进入自由形状模式：在overview屏幕下，长按Activity标题，将会在右边出现一个方块状的图标，点击该图标，该Activity该会以自由形状模式展示，通过对该Activity页面的左上角并拖拽，可以修改其形状大小。</p>
+<p><img src="http://oaarc3d2f.bkt.clouddn.com/free.gif" alt="进入自由形状模式"></p>
+</li>
+</ol>
+<h2 id="多窗口生命周期"><a href="#多窗口生命周期" class="headerlink" title="多窗口生命周期"></a>多窗口生命周期</h2><ul>
+<li>多窗口模式不会更改生命周期，多窗口模式下，最近的与用户进行交互的那个Activity为活动状态（Resume），所有其他的Activity虽然可见，但是都会处于暂停状态（pause）。但是这些已暂停但可见的 Activity 在系统中享有比不可见 Activity 更高的优先级。 如果用户与其中一个暂停的 Activity 交互，该 Activity 将恢复，而之前的顶级 Activity 将被暂停。</li>
+<li>根据google官方文档上的描述，你如果在应用中做了视频播放效果，那么不要再在onPause中去暂停播放视频了，因为多窗口模式下，你的Activity虽然被暂停，但还是处于可见状态。建议在onStop方法中去暂停播放视频。</li>
+<li>切换到多窗口时，Activity会发生配置变更，该变更与系统进行横竖屏切换时的 Activity 生命周期影响基本相同。你可以对 Activity 自行处理配置变更，或着默许系统去销毁 Activity，并以新的尺寸重新创建该 Activity。</li>
+</ul>
+<h2 id="如何禁用多窗口模式"><a href="#如何禁用多窗口模式" class="headerlink" title="如何禁用多窗口模式"></a>如何禁用多窗口模式</h2><ul>
+<li>如果应用需要适配Android N，那么，一定要注意你开发的应用在多窗口模式下的使用效果。</li>
+<li>Android 的SDK版本中给AndroidManifest里的Application（Activity）新增了一个属性：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">android:resizeableActivity=["true" | "false"]</div></pre></td></tr></table></figure>
+<p>​    该属性为true时，将支持多窗口，为false时不支持，展示时只能是全屏模式（PS：该属性不配置时，默认为true）。Activity任务栈里第一个入栈的Activity的该属性，会被栈内的其他Activity继承。</p>
+<p>​    比如说，任务栈中第一个入栈Activity里的resizeableActivity为true，那么即使接下来入栈的Activity的该属性为false，在多窗口模式下进行展示时，新入栈的Acitivity也不会强制进入全屏模式。</p>
+<ul>
+<li>当你开发编译使用的SDK版本低于Android N时，那么多窗口模式下，你的应用会被系统强制性的修改页面大小，并且系统会弹出相应的Toast进行警告。</li>
+<li>当你开发编译使用的SDK版本低于Android N时，如果你不希望系统去强制修改你的页面，比较偷懒的解决方案是：<strong>在AndroidMainifest中配置Applcaiton（或Activity任务栈里的首个入栈Activity）的android:screenOrientation属性</strong>。配了该属性后，你的页面将不支持多窗口，但是缺点就是Activity的朝向会被固定。（PS：这就是国内大部分应用目前不能展示在多窗口模式中的原因）</li>
+</ul>
+<h2 id="多窗口模式中一些被禁用的功能"><a href="#多窗口模式中一些被禁用的功能" class="headerlink" title="多窗口模式中一些被禁用的功能"></a>多窗口模式中一些被禁用的功能</h2><p>​    在设备<strong>处于多窗口模式中</strong>时，某些功能会被禁用或忽略，因为这些功能对与其他 Activity 或应用共享设备屏幕的 Activity 而言没有意义。 此类功能包括：</p>
+<ul>
+<li>某些<a href="https://developer.android.com/training/system-ui/index.html" target="_blank" rel="external">系统 UI</a> 自定义选项将被禁用；例如，在非全屏模式中，应用将无法去隐藏状态栏。</li>
+<li>系统将忽略对 <code>android:screenOrientation</code> 属性所作的更改。</li>
+</ul>
+<h2 id="如果应用禁止多窗口支持"><a href="#如果应用禁止多窗口支持" class="headerlink" title="如果应用禁止多窗口支持"></a>如果应用禁止多窗口支持</h2><p>​    如果您通过设置 <code>android:resizableActivity=&quot;false&quot;</code> 禁用了多窗口支持，则应在运行 Android N 的设备上启动应用，并尝试将应用切换到自由形状和分屏模式。 验证并确保执行此操作后，应用仍保持全屏模式。</p>
+<h2 id="如果应用需要多窗口支持"><a href="#如果应用需要多窗口支持" class="headerlink" title="如果应用需要多窗口支持"></a>如果应用需要多窗口支持</h2><h4 id="在多窗口模式中启动新-Activity"><a href="#在多窗口模式中启动新-Activity" class="headerlink" title="在多窗口模式中启动新 Activity"></a>在多窗口模式中启动新 Activity</h4><p>​    处于分屏模式中，在启动新 Activity 时，如果你想将新 Activity 显示在当前 Activity 的旁边那一屏。可使用标志<code>Intent.FLAG_ACTIVITY_LAUNCH_TO_ADJACENT</code>。此标志将请求以下行为：</p>
+<ul>
+<li><p>如果设备处于分屏模式，系统会尝试在启动系统的 Activity 旁创建新 Activity，这样两个 Activity 将共享屏幕。 系统并不一定能实现此操作，但如果可以，系统将使两个 Activity 处于相邻的位置。</p>
+</li>
+<li><p>如果设备不处于分屏模式，则该标志无效。</p>
+<p>处于自由形状模式中，则在启动新 Activity 时，用户可使用 <code>ActivityOptions.setLaunchBounds()</code> 指定新 Activity 的尺寸和屏幕位置。 如果设备不处于多窗口模式，则该方法无效。</p>
+</li>
+</ul>
+<blockquote>
+<p>如果要在任务栈中启动 Activity，该 Activity 将<strong>替换屏幕上的 Activity</strong>，并继承其所有的多窗口属性。 如果想避免替换，让新Activity在多窗口模式中以另一个单独的窗口来展示，则必须<strong>让这个Activity在新的任务栈中来启动</strong>。</p>
+</blockquote>
+<h4 id="为多窗口模式准备的布局属性"><a href="#为多窗口模式准备的布局属性" class="headerlink" title="为多窗口模式准备的布局属性"></a>为多窗口模式准备的布局属性</h4><p>​    对于 Android N，可以在清单文件的<code>&lt;Activity&gt;</code>元素中支持以下几种属性，这些属性影响 Activity 会多窗口模式中的行为：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">android:defaultWidth   <span class="comment">&lt;!--以自由形状模式启动时 Activity 的默认宽度。--&gt;</span></div><div class="line">android:defaultHeight  <span class="comment">&lt;!--以自由形状模式启动时 Activity 的默认高度。--&gt;</span></div><div class="line">android:gravity        <span class="comment">&lt;!--以自由形状模式启动时 Activity 的初始位置。--&gt;</span></div><div class="line">android:minHeight、android:minWidth</div><div class="line"><span class="comment">&lt;!-- 分屏和自由形状模式中 Activity 的最小高度和最小宽度。 如果用户在分屏模式中移动分界线，使 Activity 尺寸低于指定的最小值，系统会将 Activity 裁剪为用户请求的尺寸 --&gt;</span></div></pre></td></tr></table></figure>
+<p>​    例如，以下节点显示了如何指定 Activity 在自由形状模式中显示时 Activity 的默认大小、位置和最小尺寸：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MyActivity"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">layout</span> <span class="attr">android:defaultHeight</span>=<span class="string">"400dp"</span></span></div><div class="line">          <span class="attr">android:defaultWidth</span>=<span class="string">"400dp"</span></div><div class="line">          <span class="attr">android:gravity</span>=<span class="string">"top|end"</span></div><div class="line">          <span class="attr">android:minHeight</span>=<span class="string">"250dp"</span></div><div class="line">          <span class="attr">android:minWidth</span>=<span class="string">"250dp"</span> /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="多窗口变更通知和查询"><a href="#多窗口变更通知和查询" class="headerlink" title="多窗口变更通知和查询"></a>多窗口变更通知和查询</h4><p>​    Activity 类中添加了一些新方法，以支持多窗口显示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*调用该方法以确认 Activity 是否处于多窗口模式。*/</span></div><div class="line">Activity.isInMultiWindowMode()	</div><div class="line"><span class="comment">/*Activity 进入或退出多窗口模式时系统将调用此方法。 在 Activity 进入多窗口模式时，系统向该方法传递 true 值，在退出多窗口模式时，则传递 false 值。*/</span></div><div class="line">Activity.onMultiWindowModeChanged()</div></pre></td></tr></table></figure>
+<p>​    每个方法还有 <code>Fragment</code> 版本，例如 <code>Fragment.isInMultiWindowMode()</code></p>
+<h4 id="支持拖放"><a href="#支持拖放" class="headerlink" title="支持拖放"></a>支持拖放</h4><p>​    以前的版本中，只能在一个Activity中进行数据的拖放。在Android N中，多窗口模式下，可以在两个Activity之间互相拖放数据，因为篇(lan)幅(ai)有(fa)限(zuo)，此处不再展开。</p>
+<p>参考资料：</p>
+<p>[google官方文档][<a href="https://developer.android.com/guide/topics/ui/multi-window.html" target="_blank" rel="external">https://developer.android.com/guide/topics/ui/multi-window.html</a>]</p>
+<p>[机锋论坛][<a href="http://bbs.gfan.com/android-8370164-1-2.html" target="_blank" rel="external">http://bbs.gfan.com/android-8370164-1-2.html</a>]</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/04/deleteAd/" rel="next" title="Android应用去广告">
+                <i class="fa fa-chevron-left"></i> Android应用去广告
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/06/multiwindow/"
+           data-title="Android 7.0多窗口支持" data-url="http://mumuxuan.com/2016/09/06/multiwindow/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://oaarc3d2f.bkt.clouddn.com/psb.jpg"
+               alt="MuMu轩" />
+          <p class="site-author-name" itemprop="name">MuMu轩</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何切换到多窗口模式"><span class="nav-number">2.</span> <span class="nav-text">如何切换到多窗口模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分屏模式"><span class="nav-number">2.0.1.</span> <span class="nav-text">分屏模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自由形状模式"><span class="nav-number">2.0.2.</span> <span class="nav-text">自由形状模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多窗口生命周期"><span class="nav-number">3.</span> <span class="nav-text">多窗口生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何禁用多窗口模式"><span class="nav-number">4.</span> <span class="nav-text">如何禁用多窗口模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多窗口模式中一些被禁用的功能"><span class="nav-number">5.</span> <span class="nav-text">多窗口模式中一些被禁用的功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果应用禁止多窗口支持"><span class="nav-number">6.</span> <span class="nav-text">如果应用禁止多窗口支持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果应用需要多窗口支持"><span class="nav-number">7.</span> <span class="nav-text">如果应用需要多窗口支持</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在多窗口模式中启动新-Activity"><span class="nav-number">7.0.1.</span> <span class="nav-text">在多窗口模式中启动新 Activity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为多窗口模式准备的布局属性"><span class="nav-number">7.0.2.</span> <span class="nav-text">为多窗口模式准备的布局属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多窗口变更通知和查询"><span class="nav-number">7.0.3.</span> <span class="nav-text">多窗口变更通知和查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#支持拖放"><span class="nav-number">7.0.4.</span> <span class="nav-text">支持拖放</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MuMu轩</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"mumuxuan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
